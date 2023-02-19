@@ -4,12 +4,12 @@ import { ref, computed, inject, onMounted } from "vue";
 const axios: any = inject("axios");
 
 const form = ref({
-  operation: "2",
-  distance: "1",
-  extraCoins: "40",
-  stopLoss: "5",
-  inPrice: "21795",
-  coins: "0.001",
+  operation: "",
+  distance: "",
+  extraCoins: "",
+  stopLoss: "",
+  inPrice: "",
+  coins: "",
 });
 const footer = ref({});
 const result = ref({});
@@ -80,7 +80,7 @@ const calcular = () => {
 
   result.value = recompra;
   footer.value = {
-    percentaje,
+    percentaje: percentaje.toFixed(2),
     stopLoss: stopLoss.toFixed(decimalsPrice),
     totalCoins: totalCoins.toFixed(decimals),
     totalUsd: totalUsd.toFixed(decimals),
@@ -124,7 +124,7 @@ onMounted(() => {
             >
             <select
               id="operacion"
-              class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              class="form-select appearance-none block w-full px-3 py-1.5 font-normal bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               :class="[
                 form.operation == 1
                   ? 'bg-green-500 text-gray-100'
@@ -262,9 +262,9 @@ onMounted(() => {
             <td class="pl-4 text-center text-gray-500">{{ row.position }}</td>
           </tr>
         </tbody>
-        <tfoot class="bg-gray-400">
+        <tfoot class="bg-gray-400" v-if="footer.percentaje">
           <tr class="bg-opacity-20">
-            <td class="pl-4 py-3">SL({{ footer.percentaje.toFixed(2) }}%)</td>
+            <td class="pl-4 py-3">SL({{ footer.percentaje }}%)</td>
             <td class="pl-4 py-3 text-center">
               {{ footer.stopLoss }}
             </td>
