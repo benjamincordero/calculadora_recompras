@@ -204,6 +204,7 @@ onMounted(() => {
             >
             <input
               type="number"
+              step="0.000001"
               required
               id="entrada"
               placeholder="Precio de entrada"
@@ -220,7 +221,7 @@ onMounted(() => {
             >
             <input
               type="number"
-              step="0.001"
+              step="0.000001"
               required
               id="monedas"
               placeholder="Monedas"

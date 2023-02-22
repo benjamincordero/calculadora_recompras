@@ -27,7 +27,7 @@ onMounted(() => {
 <template>
   <div>
     <button
-      class="px-1 rounded-sm m-2 bg-slate-900 text-yellow-400"
+      class="px-2 rounded-sm m-2 bg-slate-900 text-yellow-400"
       @click="darkToggle"
     >
       <i class="fa" :class="[isDark ? 'fa-sun' : 'fa-moon']"></i>
