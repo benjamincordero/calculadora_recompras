@@ -1,18 +1,33 @@
-# Vue 3 + TypeScript + Vite
+# Replica de la calculadora de [elgafas.com](https://elgafas.com/)
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Aun no está 100% listo (actualmente muestra resultados iguales a los de elgafas.com pero con diferencia de decimales). Los invito a que compareis ambos resultados.
 
-## Recommended IDE Setup
+## Descripción
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Esto no es más que una réplica de la calculadora de El gafas trading. Con algunas mejoras que añadí, e iré añadiendo conforme se me vayan ocurriendo.
 
-## Type Support For `.vue` Imports in TS
+## Mejoras
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+En esta sección estaré listando las mejoras que le vaya añadiendo con respecto a la calculadora del gafas.
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- Modo Oscuro alternativo.
+- Nueva columna que muestra un aproximado de donde quedaría la posición luego de cada recompra.
+- Guardar datos de formulario en el LocalStorage del navegador para que no se eliminen cuando accidentalmente se recargue la página.
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+### Requisitos
+
+- [Nodejs](https://nodejs.org/es/)
+- [NPM](https://www.npmjs.com/)
+
+### Instalación
+
+- Descargar este repositorio
+- Instalar las dependencias con <code>npm install</code>
+- Correr el siguiente comando para ejecutar el servidor de vite <code>npm run dev</code>
+- Abrir en el navegador en la dirección que la terminal indique.
+
+#### Hecho con
+
+- [VueJs](https://vuejs.org/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Tailwind](https://tailwindcss.com/)
