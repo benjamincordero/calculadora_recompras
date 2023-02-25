@@ -38,8 +38,71 @@ const calcular = () => {
   if (data.operation == "2") {
     short();
   } else {
-    console.log("long");
+    long();
   }
+};
+
+const long = () => {
+  const recompra = [];
+  let i = 1;
+  let data = form.value;
+  let elevatePrice = parseFloat(data.inPrice);
+  let currentCoins = parseFloat(data.coins);
+  let totalCoins = parseFloat(data.coins);
+  let totalUsd = elevatePrice * currentCoins;
+
+  let usd = elevatePrice * currentCoins;
+  const decimals =
+    totalCoins % 1 != 0 ? data.coins.toString().split(".")[1].length : 2;
+  const decimalsPrice =
+    elevatePrice % 1 != 0 ? data.inPrice.toString().split(".")[1].length : 2;
+
+  let notional = 0;
+  let position = 0;
+  let stopLoss = 0;
+  while (true) {
+    //calcular stoploss
+    position = totalUsd / totalCoins;
+    notional = totalCoins * position;
+    stopLoss = (notional - parseFloat(data.stopLoss)) / totalCoins;
+    //end calcular stoploss
+
+    //elvevamos el precio al porcentaje que sigue
+    elevatePrice -= (elevatePrice * parseFloat(data.distance)) / 100;
+    console.log(stopLoss);
+    //elevamos la cantidad de monedas al porcentaje que le sigue y añadimos las monedas a la cantidad total
+    currentCoins =
+      currentCoins + (currentCoins * parseFloat(data.extraCoins)) / 100;
+    currentCoins = parseFloat(currentCoins.toFixed(decimals));
+
+    usd = elevatePrice * currentCoins;
+    if (elevatePrice < stopLoss || i > 8) {
+      break;
+    } else {
+      totalCoins += currentCoins;
+      totalUsd += usd;
+    }
+    /*console.log(i, "totalcoins =" + totalCoins, "coins=" + currentCoins);*/
+    let newPosition = totalUsd / totalCoins;
+    recompra.push({
+      number: i,
+      price: elevatePrice.toFixed(decimalsPrice),
+      coins: currentCoins.toFixed(decimals),
+      usd: usd.toFixed(2),
+      position: newPosition.toFixed(2),
+    });
+    i++;
+  }
+  let initialPrice = parseFloat(data.inPrice);
+  let percentaje = ((stopLoss - initialPrice) / initialPrice) * 100;
+
+  result.value = recompra;
+  footer.value = {
+    percentaje: percentaje.toFixed(2),
+    stopLoss: stopLoss.toFixed(decimalsPrice),
+    totalCoins: totalCoins.toFixed(decimals),
+    totalUsd: totalUsd.toFixed(decimals),
+  };
 };
 
 const short = () => {
@@ -118,21 +181,14 @@ onMounted(() => {
   <div
     class="flex justify-center flex-col lg:flex-row lg:justify-center gap-5 pt-4"
   ></div>
-  <div
-    class="flex justify-center flex-col lg:flex-row lg:justify-center gap-5 pt-4"
-  >
-    <div class="mb-3 lg:w-1/3">
-      <div class="block bg-white dark:bg-slate-800 p-6 rounded-lg shadow-lg">
-        <h1
-          class="dark:bg-slate-800 text-lg text-gray-700 dark:text-gray-200 pb-3 px-6 border-b border-gray-300 dark:border-gray-900"
-        >
-          Calculadora de recompras
-        </h1>
+  <div class="flex justify-center flex-col lg:flex-row lg:justify-center gap-5">
+    <div class="lg:w-1/3">
+      <div class="block bg-white dark:bg-slate-800 p-5 rounded-lg shadow-lg">
         <form @submit.prevent="calcular">
           <div class="flex flex-col">
             <label
               for="operacion"
-              class="inline-block pt-4 text-gray-700 dark:text-gray-200"
+              class="inline-block text-gray-700 dark:text-gray-200"
               >Operación</label
             >
             <select
@@ -156,6 +212,7 @@ onMounted(() => {
             >
             <input
               type="number"
+              step="any"
               required
               id="distancia"
               placeholder="% Distancia recompras"
@@ -172,6 +229,7 @@ onMounted(() => {
             >
             <input
               type="number"
+              step="any"
               required
               id="monedas_adicionales"
               placeholder="% Monedas"
@@ -188,6 +246,7 @@ onMounted(() => {
             >
             <input
               type="number"
+              step="any"
               required
               id="sl"
               placeholder="Stop Loss $"
@@ -204,7 +263,7 @@ onMounted(() => {
             >
             <input
               type="number"
-              step="0.000001"
+              step="any"
               required
               id="entrada"
               placeholder="Precio de entrada"
@@ -221,7 +280,7 @@ onMounted(() => {
             >
             <input
               type="number"
-              step="0.000001"
+              step="any"
               required
               id="monedas"
               placeholder="Monedas"
