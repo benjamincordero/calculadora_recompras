@@ -10,9 +10,9 @@ Esto no es más que una réplica de la calculadora de El gafas trading. Con algu
 
 En esta sección estaré listando las mejoras que le vaya añadiendo con respecto a la calculadora del gafas.
 
-- Modo Oscuro alternativo.
 - Nueva columna que muestra un aproximado de donde quedaría la posición luego de cada recompra.
 - Guardar datos de formulario en el LocalStorage del navegador para que no se eliminen cuando accidentalmente se recargue la página.
+- Modo oscuro alternativo.
 
 ### Requisitos
 
