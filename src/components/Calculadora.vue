@@ -307,7 +307,9 @@ onMounted(() => {
             class="px-6 py-2.5 dark:text-gray-200 hover:shadow-lg font-large text-sm leading-tight uppercase rounded shadow-md focus:shadow-lg w-full mt-5 focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out text-white"
             :class="submitColor"
           >
-            Calcular
+            <span v-if="form.operation == '1'">Long</span>
+            <span v-else-if="form.operation == '2'">Short</span>
+            <span v-else>Calcular</span>
           </button>
         </form>
       </div>
@@ -318,18 +320,15 @@ onMounted(() => {
           class="bg-gray-200 dark:bg-slate-800 dark:text-gray-200 text-xs uppercase font-medium"
         >
           <tr>
-            <th scope="col" class="px-4 py-3 text-left tracking-wider">#</th>
-            <th scope="col" class="px-6 py-3 text-center tracking-wider">
-              Precio
-            </th>
+            <th class="px-4 py-3 text-left tracking-wider">#</th>
+            <th class="px-3 py-3 text-center tracking-wider">Precio</th>
 
-            <th scope="col" class="px-6 py-3 text-center tracking-wider">
-              Monedas
-            </th>
-            <th scope="col" class="px-6 py-3 text-center tracking-wider">
-              Valor en Usd
-            </th>
-            <th scope="col" class="px-6 py-3 text-center tracking-wider">
+            <th class="px-3 py-3 text-center tracking-wider">Monedas</th>
+            <th class="px-3 py-3 text-center tracking-wider">Valor en Usd</th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-center tracking-wider hidden lg:block"
+            >
               Nueva Posición Aproximada
             </th>
           </tr>
@@ -345,11 +344,13 @@ onMounted(() => {
                 : 'bg-gray-100 dark:bg-gray-600',
             ]"
           >
-            <td class="pl-4 py-3">{{ row.number }}</td>
-            <td class="pl-4 text-center">{{ row.price }}</td>
-            <td class="pl-4 text-center">{{ row.coins }}</td>
-            <td class="pl-4 text-center">${{ row.usd }}</td>
-            <td class="pl-4 text-center text-gray-500 dark:text-white">
+            <td class="text-center py-2">{{ row.number }}</td>
+            <td class="text-center">{{ row.price }}</td>
+            <td class="text-center">{{ row.coins }}</td>
+            <td class="text-center">${{ row.usd }}</td>
+            <td
+              class="text-center text-gray-500 dark:text-white hidden lg:block"
+            >
               {{ row.position }}
             </td>
           </tr>
@@ -359,13 +360,13 @@ onMounted(() => {
           v-if="footer.percentaje"
         >
           <tr class="bg-opacity-20">
-            <td class="pl-4 py-3">SL({{ footer.percentaje }}%)</td>
-            <td class="pl-4 py-3 text-center">
+            <td class="text-center py-3">SL({{ footer.percentaje }}%)</td>
+            <td class="py-3 text-center">
               {{ footer.stopLoss }}
             </td>
-            <td class="pl-4 py-3 text-center">{{ footer.totalCoins }}</td>
-            <td class="pl-4 py-3 text-center">${{ footer.totalUsd }}</td>
-            <td class="pl-4 py-3 text-center">-</td>
+            <td class="py-3 text-center">{{ footer.totalCoins }}</td>
+            <td class="py-3 text-center">${{ footer.totalUsd }}</td>
+            <td class="py-3 text-center hidden lg:block">-</td>
           </tr>
         </tfoot>
       </table>
