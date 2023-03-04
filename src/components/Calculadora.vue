@@ -17,10 +17,10 @@ const result = ref({});
 
 const submitColor = computed(() => {
   if (form.value.operation == "1") {
-    return "bg-green-600 hover:bg-green-700 focus:bg-green-700 active:bg-green-800";
+    return "bg-green-600 dark:bg-green-700 hover:bg-green-600 dark:hover:bg-green-900 focus:bg-green-700 active:bg-green-800";
   }
   if (form.value.operation == "2") {
-    return "bg-red-500 hover:bg-red-700 focus:bg-red-700 active:bg-red-800";
+    return "bg-red-500 dark:bg-red-700 dark:hover:bg-red-900 hover:bg-red-700 focus:bg-red-700 active:bg-red-800";
   }
   return "bg-blue-600";
 });
@@ -166,6 +166,31 @@ const short = () => {
     totalUsd: totalUsd.toFixed(decimals),
   };
 };
+const copy = (elementClass: string, text: string) => {
+  Array.from(document.querySelectorAll(".clipboardIconItem")).forEach(function (
+    el
+  ) {
+    console.log(el);
+    el.classList.remove("fa-clipboard-check");
+    el.classList.remove("fa-solid");
+    el.classList.remove("dark:text-green-600");
+
+    el.classList.add("fa-regular");
+    el.classList.add("fa-clipboard");
+  });
+
+  let item: any = document.getElementById(elementClass);
+  console.log(item);
+  item.classList.remove("fa-clipboard");
+  item.classList.remove("fa-regular");
+
+  item.classList.add("fa-solid");
+  item.classList.add("fa-clipboard-check");
+  item.classList.add("dark:text-green-600");
+
+  navigator.clipboard.writeText(text);
+};
+
 onMounted(() => {
   let dataString = localStorage.getItem("form");
   const data = JSON.parse(localStorage.getItem("form"));
@@ -183,7 +208,7 @@ onMounted(() => {
   ></div>
   <div class="flex justify-center flex-col lg:flex-row lg:justify-center gap-5">
     <div class="lg:w-1/3">
-      <div class="block bg-white dark:bg-slate-800 p-5 rounded-lg shadow-lg">
+      <div class="block bg-white dark:bg-slate-800 p-5 rounded-sm shadow-lg">
         <form @submit.prevent="calcular">
           <div class="flex flex-col">
             <label
@@ -320,7 +345,7 @@ onMounted(() => {
           class="bg-gray-200 dark:bg-slate-800 dark:text-gray-200 text-xs uppercase font-medium"
         >
           <tr>
-            <th class="px-4 py-3 text-left tracking-wider">#</th>
+            <th class="px-4 py-3 text-center tracking-wider">#</th>
             <th class="px-3 py-3 text-center tracking-wider">Precio</th>
 
             <th class="px-3 py-3 text-center tracking-wider">Monedas</th>
@@ -345,8 +370,24 @@ onMounted(() => {
             ]"
           >
             <td class="text-center py-2">{{ row.number }}</td>
-            <td class="text-center">{{ row.price }}</td>
-            <td class="text-center">{{ row.coins }}</td>
+            <td class="text-center">
+              {{ row.price }}
+              <i
+                title="copy"
+                class="fa-regular fa-clipboard cursor-pointer clipboardIconItem hover:text-green-400"
+                :id="'priceCopyIcon_' + index"
+                @click="copy('priceCopyIcon_' + index, row.price)"
+              ></i>
+            </td>
+            <td class="text-center">
+              {{ row.coins }}
+              <i
+                title="copy"
+                class="fa-regular fa-clipboard cursor-pointer clipboardIconItem hover:text-green-400"
+                :id="'coinsCopyIcon_' + index"
+                @click="copy('coinsCopyIcon_' + index, row.coins)"
+              ></i>
+            </td>
             <td class="text-center">${{ row.usd }}</td>
             <td
               class="text-center text-gray-500 dark:text-white hidden lg:block"
@@ -363,6 +404,12 @@ onMounted(() => {
             <td class="text-center py-3">SL({{ footer.percentaje }}%)</td>
             <td class="py-3 text-center">
               {{ footer.stopLoss }}
+              <i
+                title="copy"
+                class="fa-regular fa-clipboard cursor-pointer clipboardIconItem hover:text-green-400"
+                id="slCopyIcon"
+                @click="copy('slCopyIcon', footer.stopLoss)"
+              ></i>
             </td>
             <td class="py-3 text-center">{{ footer.totalCoins }}</td>
             <td class="py-3 text-center">${{ footer.totalUsd }}</td>

@@ -13,6 +13,7 @@ En esta sección estaré listando las mejoras que le vaya añadiendo con respect
 - Nueva columna que muestra un aproximado de donde quedaría la posición luego de cada recompra.
 - Guardar datos de formulario en el LocalStorage del navegador para que no se eliminen cuando accidentalmente se recargue la página.
 - Modo oscuro alternativo.
+- Botones para copiar al portapapeles los precios, monedas y el stop loss.
 
 ### Requisitos
 
