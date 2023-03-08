@@ -12,6 +12,7 @@ const form = ref({
   coins: "",
   localStorage: false,
 });
+const form_html = ref(null);
 const footer = ref({});
 const result = ref({});
 
@@ -24,6 +25,15 @@ const submitColor = computed(() => {
   }
   return "bg-blue-600";
 });
+
+const precalcular = (type: string) => {
+  if (type == "2") {
+    form.value.operation = "2";
+  } else {
+    form.value.operation = "1";
+  }
+};
+
 const calcular = () => {
   let data = form.value;
   console.log(data);
@@ -35,7 +45,7 @@ const calcular = () => {
     }
   }
 
-  if (data.operation == "2") {
+  if (form.value.operation == "2") {
     short();
   } else {
     long();
@@ -43,6 +53,7 @@ const calcular = () => {
 };
 
 const long = () => {
+  form.value.operation = 1;
   const recompra = [];
   let i = 1;
   let data = form.value;
@@ -106,6 +117,7 @@ const long = () => {
 };
 
 const short = () => {
+  form.value.operation = 2;
   const recompra = [];
   let i = 1;
   let data = form.value;
@@ -190,14 +202,30 @@ const copy = (elementClass: string, text: string) => {
 
   navigator.clipboard.writeText(text);
 };
+const resetForm = () => {
+  form.value = {
+    operation: "",
+    distance: "",
+    extraCoins: "",
+    stopLoss: "",
+    inPrice: "",
+    coins: "",
+    localStorage: false,
+  };
+
+  localStorage.setItem("form", JSON.stringify(form.value));
+};
 
 onMounted(() => {
   let dataString = localStorage.getItem("form");
   const data = JSON.parse(localStorage.getItem("form"));
 
   if (data) {
+    console.log(data);
     form.value = data;
-    calcular();
+    if (data.localStorage) {
+      calcular();
+    }
   }
 });
 </script>
@@ -209,7 +237,7 @@ onMounted(() => {
   <div class="flex justify-center flex-col lg:flex-row lg:justify-center gap-5">
     <div class="lg:w-1/3">
       <div class="block bg-white dark:bg-slate-800 p-5 rounded-sm shadow-lg">
-        <form @submit.prevent="calcular">
+        <form id="form" ref="form_html" @submit.prevent="calcular">
           <div class="flex flex-col">
             <label
               for="operacion"
@@ -217,6 +245,7 @@ onMounted(() => {
               >Operación</label
             >
             <select
+              disabled
               id="operacion"
               class="form-select appearance-none block w-full px-3 py-1.5 dark:bg-gray-800 dark:text-gray-200 font-normal bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:border-blue-600 focus:outline-none"
               required
@@ -327,14 +356,26 @@ onMounted(() => {
               >Conservar datos formulario</label
             >
           </div>
+          <div class="flex flex-col md:flex-row gap-2">
+            <button
+              @click="precalcular(1)"
+              class="px-6 py-2.5 dark:text-gray-200 hover:shadow-lg font-large text-sm leading-tight uppercase rounded shadow-md focus:shadow-lg w-full mt-5 focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out text-white bg-green-600 dark:bg-green-700 hover:bg-green-600 dark:hover:bg-green-900 focus:bg-green-700 active:bg-green-800"
+            >
+              Long
+            </button>
+            <button
+              @click="precalcular(2)"
+              class="px-6 py-2.5 dark:text-gray-200 hover:shadow-lg font-large text-sm leading-tight uppercase rounded shadow-md focus:shadow-lg w-full mt-5 focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out text-white bg-red-500 dark:bg-red-700 dark:hover:bg-red-900 hover:bg-red-700 focus:bg-red-700 active:bg-red-800"
+            >
+              Short
+            </button>
+          </div>
           <button
             type="submit"
-            class="px-6 py-2.5 dark:text-gray-200 hover:shadow-lg font-large text-sm leading-tight uppercase rounded shadow-md focus:shadow-lg w-full mt-5 focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out text-white"
-            :class="submitColor"
+            @click="resetForm"
+            class="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 dark:text-gray-200 hover:shadow-lg font-large text-sm leading-tight uppercase rounded shadow-md focus:shadow-lg w-full mt-5 focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out text-white"
           >
-            <span v-if="form.operation == '1'">Long</span>
-            <span v-else-if="form.operation == '2'">Short</span>
-            <span v-else>Calcular</span>
+            <span><i class="fa-solid fa-refresh"></i> Reset Form</span>
           </button>
         </form>
       </div>
