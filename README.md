@@ -32,4 +32,4 @@ En esta sección estaré listando las mejoras que le vaya añadiendo con respect
 - [Tailwind](https://tailwindcss.com/)
 
 
-### [DEMO](https://benjamincordero.github.io/calculadora_recompras/)
+### [Ver Online](https://benjamincordero.github.io/calculadora_recompras/)
