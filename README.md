@@ -32,3 +32,6 @@ En esta sección estaré listando las mejoras que le vaya añadiendo con respect
 - [VueJs](https://vuejs.org/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Tailwind](https://tailwindcss.com/)
+
+
+### [DEMO](https://benjamincordero.github.io/calculadora_recompras/)
