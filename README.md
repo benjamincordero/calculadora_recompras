@@ -1,7 +1,5 @@
 # Replica de la calculadora de [elgafas.com](https://elgafas.com/)
 
-Aun no está 100% listo (actualmente muestra resultados iguales a los de elgafas.com pero con diferencia de decimales). Los invito a que compareis ambos resultados.
-
 ## Descripción
 
 Esto no es más que una réplica de la calculadora de El gafas trading. Con algunas mejoras que añadí, e iré añadiendo conforme se me vayan ocurriendo.
